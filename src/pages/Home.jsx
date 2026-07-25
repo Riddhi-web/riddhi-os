@@ -6,67 +6,78 @@ export default function Home() {
     <MainLayout>
       <div className="space-y-6">
         {/* Hero Section */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
-          <div className="flex items-center gap-3">
-            <div className="h-3 w-3 rounded-full bg-green-500"></div>
+            <div className="rounded-3xl border border-slate-800 bg-slate-900/40 p-8">
+            <p className="text-sm font-semibold uppercase tracking-widest text-orange-400">
+              Currently Building
+            </p>
 
-            <span className="text-sm font-medium text-green-400">
-              SYSTEM ONLINE
-            </span>
+            <h1 className="mt-4 text-5xl font-bold">
+              RIDDHI.OS
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-lg text-slate-400">
+              A personal developer workspace where I
+              showcase projects, skills, and everything
+              I'm learning as a frontend developer.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-400">
+              <span>📍 India</span>
+              <span>⚡ React Developer</span>
+              <span>🚀 Open to Opportunities</span>
+            </div>
           </div>
-
-          <h1 className="mt-6 text-5xl font-bold">
-            Harsh Sharma
-          </h1>
-
-          <p className="mt-3 max-w-2xl text-lg text-slate-400">
-            Building modern web applications with React,
-            JavaScript, and modern frontend technologies.
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <button className="rounded-xl bg-orange-500 px-5 py-3 font-medium text-black transition hover:bg-orange-400">
-              View Projects
-            </button>
-
-            <button className="rounded-xl border border-slate-700 px-5 py-3 font-medium transition hover:bg-slate-800">
-              Download Resume
-            </button>
-          </div>
-        </div>
-
+          
         {/* Stats Section */}
         <div className="grid gap-6 md:grid-cols-3">
           <StatusCard
-            title="Projects"
-            value="12+"
+            title="Latest Build"
+            value="RIDDHI.OS"
           />
 
           <StatusCard
-            title="Tech Stack"
-            value="15+"
+            title="Learning"
+            value="Next.js"
           />
 
           <StatusCard
-            title="Status"
-            value="ONLINE"
+            title="Availability"
+            value="OPEN"
             color="text-green-400"
-          />
+          />  
         </div>
 
         {/* Command Center */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/20 p-6">
-          <h2 className="mb-4 text-xl font-semibold">
-            Command Center
+       <div className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-3xl border border-orange-500/40 bg-orange-500/5 p-6">
+          <h2 className="mb-4 text-2xl font-bold">
+            Featured Project
           </h2>
 
-          <div className="space-y-3 font-mono text-orange-400">
-            <p>{">"} view projects</p>
-            <p>{">"} view skills</p>
-            <p>{">"} download resume</p>
-            <p>{">"} contact me</p>
+          <h3 className="text-xl font-semibold">
+            RIDDHI.OS
+          </h3>
+
+          <p className="mt-3 text-slate-400">
+            A React-powered developer workspace
+            designed to showcase projects, skills,
+            and continuous learning.
+          </p>
+        </div>
+
+        <div className="rounded-3xl border border-orange-500/40 bg-orange-500/5 p-6">
+          <h2 className="mb-4 text-2xl font-bold">
+            Recent Activity
+          </h2>
+
+          <div className="space-y-3 text-slate-400">
+            <p>• Built project showcase section</p>
+            <p>• Added React Hook Form validation</p>
+            <p>• Switched portfolio to orange theme</p>
           </div>
         </div>
+      </div>
+        
       </div>
     </MainLayout>
   );

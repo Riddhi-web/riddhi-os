@@ -1,28 +1,54 @@
 export const projects = [
   {
     id: 1,
-    code: "PROJECT_001",
-    name: "E-Commerce Platform",
-    status: "DEPLOYED",
-    stack: ["React", "Node.js", "MongoDB"],
-    description: "Full-stack shopping application",
+    name: "Portfolio Builder",
+    description:
+      "Developer workspace built with React and Tailwind CSS.",
+
+    status: "Active Development",
+
+    github: "#",
+    demo: "#",
+
+    stack: [
+      "React",
+      "Tailwind",
+      "React Router",
+    ],
   },
 
   {
     id: 2,
-    code: "PROJECT_002",
     name: "Task Manager",
-    status: "ACTIVE",
-    stack: ["React", "Firebase"],
-    description: "Project tracking dashboard",
+    description:
+      "Task tracking application with modern UI.",
+
+    status: "Completed",
+
+    github: "#",
+    demo: "#",
+
+    stack: [
+      "React",
+      "Firebase",
+    ],
   },
 
   {
     id: 3,
-    code: "PROJECT_003",
-    name: "Portfolio Builder",
-    status: "IN DEVELOPMENT",
-    stack: ["React", "Tailwind"],
-    description: "Developer operating system",
+    name: "E-Commerce App",
+    description:
+      "Shopping platform with product management.",
+
+    status: "Completed",
+
+    github: "#",
+    demo: "#",
+
+    stack: [
+      "React",
+      "Node.js",
+      "MongoDB",
+    ],
   },
 ];
