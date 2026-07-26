@@ -1,8 +1,10 @@
 import MainLayout from "../layouts/MainLayout";
 import SkillModule from "../components/skills/SkillModule";
-import { skills } from "../data/skills";
+import { useSkillContext } from "../context/SkillContext";
 
 export default function Skills() {
+  const { skills } = useSkillContext();
+
   return (
     <MainLayout>
       <div>
@@ -13,7 +15,7 @@ export default function Skills() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {skills.map((skill) => (
             <SkillModule
-              key={skill}
+              key={skill.id}
               skill={skill}
             />
           ))}

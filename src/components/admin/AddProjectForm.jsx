@@ -1,18 +1,53 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useProjectContext } from "../../context/ProjectContext";
 
 export default function AddProjectForm() {
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  register,
+  handleSubmit,
+  reset,
+  setValue,
+  formState: { errors },
+} = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+    const {
+    addProject,
+    editProject,
+    editingProject,
+    setEditingProject,
+  } = useProjectContext();
 
+ useEffect(() => {
+  if (!editingProject) return;
+
+  console.log("editingProject changed:", editingProject);
+
+  setValue("name", editingProject.name);
+  setValue("description", editingProject.description);
+  setValue("github", editingProject.github);
+  setValue("demo", editingProject.demo);
+  setValue("status", editingProject.status);
+}, [editingProject, setValue]);
+
+    const onSubmit = (data) => {
+  if (editingProject) {
+    editProject({
+      ...editingProject,
+      ...data,
+    });
+
+    alert("✅ Project updated successfully!");
+
+    setEditingProject(null);
+  } else {
+    addProject(data);
+
+    alert("✅ Project added successfully!");
+  }
+
+  reset();
+};
   return (
     <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
       <h2 className="mb-2 text-2xl font-bold">
@@ -107,13 +142,25 @@ export default function AddProjectForm() {
           </select>
         </div>
 
-        <div className="pt-2">
+        <div className="flex gap-3 pt-2">
           <button
             type="submit"
             className="rounded-xl bg-orange-500 px-5 py-3 font-medium text-black transition hover:bg-orange-400"
           >
-            Save Project
+            {editingProject ? "Update Project" : "Save Project"}
           </button>
+          {editingProject && (
+  <button
+    type="button"
+    onClick={() => {
+      setEditingProject(null);
+      reset();
+    }}
+    className="rounded-xl border border-slate-700 px-5 py-3 hover:bg-slate-800"
+  >
+    Cancel
+  </button>
+)}
         </div>
       </form>
     </div>

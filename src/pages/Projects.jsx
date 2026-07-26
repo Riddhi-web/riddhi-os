@@ -1,8 +1,10 @@
 import MainLayout from "../layouts/MainLayout";
 import ProjectCard from "../components/projects/ProjectCard";
-import { projects } from "../data/projects";
+import { useProjectContext } from "../context/ProjectContext";
 
 export default function Projects() {
+  const { projects } = useProjectContext();
+
   return (
     <MainLayout>
       <div>

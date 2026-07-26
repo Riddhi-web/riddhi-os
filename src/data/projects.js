@@ -1,4 +1,4 @@
-export const projects = [
+const defaultProjects = [
   {
     id: 1,
     name: "Portfolio Builder",
@@ -52,3 +52,5 @@ export const projects = [
     ],
   },
 ];
+
+export default defaultProjects;
