@@ -20,10 +20,10 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const success = login(form.username, form.password);
+    const success = await login(form.username, form.password);
 
     if (success) {
       navigate("/admin");

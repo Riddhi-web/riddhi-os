@@ -1,0 +1,34 @@
+import mongoose from "mongoose";
+
+const skillSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    category: {
+      type: String,
+      enum: ["Frontend", "Backend", "Database", "Tools", "Other"],
+      default: "Frontend",
+    },
+
+    level: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 80,
+    },
+
+    icon: {
+      type: String,
+      default: "",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("Skill", skillSchema);

@@ -15,7 +15,7 @@ export default function Projects() {
         <div className="grid gap-6">
           {projects.map((project) => (
             <ProjectCard
-              key={project.id}
+              key={project._id}
               project={project}
             />
           ))}

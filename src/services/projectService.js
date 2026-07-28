@@ -1,47 +1,42 @@
-import defaultProjects from "../data/projects";
+import axios from "axios";
 
-const STORAGE_KEY = "riddhi_projects";
+const API_URL = "http://localhost:5000/api/projects";
+
+const getToken = () => localStorage.getItem("token");
 
 // Get all projects
-export const getProjects = () => {
-  const storedProjects = localStorage.getItem(STORAGE_KEY);
-
-  if (!storedProjects) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProjects));
-    return defaultProjects;
-  }
-
-  return JSON.parse(storedProjects);
+export const getProjects = async () => {
+  const response = await axios.get(API_URL);
+  return response.data.data;
 };
 
-// Save new project
-export const saveProject = (project) => {
-  const projects = getProjects();
+// Create project
+export const saveProject = async (project) => {
+  const response = await axios.post(API_URL, project, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 
-  const newProject = {
-    id: Date.now(),
-    ...project,
-  };
-
-  projects.push(newProject);
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-
-  return newProject;
-};
-
-// Delete project
-export const deleteProject = (id) => {
-  const projects = getProjects().filter((project) => project.id !== id);
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+  return response.data.data;
 };
 
 // Update project
-export const updateProject = (updatedProject) => {
-  const projects = getProjects().map((project) =>
-    project.id === updatedProject.id ? updatedProject : project
-  );
+export const updateProject = async (id, project) => {
+  const response = await axios.put(`${API_URL}/${id}`, project, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+  return response.data.data;
+};
+
+// Delete project
+export const deleteProject = async (id) => {
+  await axios.delete(`${API_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 };

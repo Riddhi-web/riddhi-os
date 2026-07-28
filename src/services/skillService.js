@@ -1,41 +1,42 @@
-import defaultSkills from "../data/skills";
+import axios from "axios";
 
-const STORAGE_KEY = "riddhi_skills";
+const API_URL = "http://localhost:5000/api/skills";
 
-export const getSkills = () => {
-  const stored = localStorage.getItem(STORAGE_KEY);
+const getToken = () => localStorage.getItem("token");
 
-  if (!stored) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSkills));
-    return defaultSkills;
-  }
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
 
-  return JSON.parse(stored);
+// Get all skills (Public)
+export const getSkills = async () => {
+  const response = await axios.get(API_URL);
+  return response.data.data;
 };
 
-export const saveSkill = (skill) => {
-  const skills = getSkills();
-
-  const newSkill = {
-    id: Date.now(),
-    ...skill,
-  };
-
-  skills.push(newSkill);
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(skills));
+// Add skill
+export const saveSkill = async (skill) => {
+  const response = await axios.post(API_URL, skill, authConfig());
+  return response.data.data;
 };
 
-export const updateSkill = (updatedSkill) => {
-  const skills = getSkills().map((skill) =>
-    skill.id === updatedSkill.id ? updatedSkill : skill
+// Update skill
+export const updateSkill = async (id, skill) => {
+  const response = await axios.put(
+    `${API_URL}/${id}`,
+    skill,
+    authConfig()
   );
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(skills));
+  return response.data.data;
 };
 
-export const deleteSkill = (id) => {
-  const skills = getSkills().filter((skill) => skill.id !== id);
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(skills));
+// Delete skill
+export const deleteSkill = async (id) => {
+  const response = await axios.delete(
+    `${API_URL}/${id}`,
+    authConfig()
+  );
+  return response.data;
 };

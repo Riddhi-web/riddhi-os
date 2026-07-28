@@ -1,30 +1,42 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
-const STORAGE_KEY = "riddhi_auth";
+const API_URL = "http://localhost:5000/api/auth";
+const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const auth = localStorage.getItem(STORAGE_KEY);
-    setIsAuthenticated(auth === "true");
+    const token = localStorage.getItem(TOKEN_KEY);
+    setIsAuthenticated(!!token);
   }, []);
 
-  const login = (username, password) => {
-    // Temporary credentials
-    if (username === "admin" && password === "admin123") {
-      localStorage.setItem(STORAGE_KEY, "true");
-      setIsAuthenticated(true);
-      return true;
-    }
+  const login = async (username, password) => {
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        username,
+        password,
+      });
 
-    return false;
+      const token = response.data.token;
+
+      localStorage.setItem(TOKEN_KEY, token);
+
+      setIsAuthenticated(true);
+
+      return true;
+    } catch (error) {
+      console.error("Login failed:", error);
+
+      return false;
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(TOKEN_KEY);
     setIsAuthenticated(false);
   };
 

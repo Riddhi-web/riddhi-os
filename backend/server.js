@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import skillRoutes from "./routes/skillRoutes.js";
 
 dotenv.config();
 
@@ -24,8 +25,11 @@ app.get("/", (req, res) => {
   });
 });
 
-// Auth Routes
+// Routes
+// Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/skills", skillRoutes);
 
 const PORT = process.env.PORT || 5000;
 

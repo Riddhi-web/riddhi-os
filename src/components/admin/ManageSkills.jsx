@@ -33,7 +33,7 @@ export default function ManageSkills() {
         {skills.map((skill) => (
 
           <div
-            key={skill.id}
+            key={skill._id}
             className="rounded-2xl border border-slate-700 bg-slate-800 p-5 transition hover:border-orange-500"
           >
 
@@ -55,7 +55,15 @@ export default function ManageSkills() {
               </button>
 
               <button
-                onClick={() => removeSkill(skill.id)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      `Delete "${skill.name}"?\n\nThis action cannot be undone.`
+                    )
+                  ) {
+                    removeSkill(skill._id);
+                  }
+                }}
                 className="rounded-lg border border-red-500 px-4 py-2 text-red-400 transition hover:bg-red-500 hover:text-white"
               >
                 Delete

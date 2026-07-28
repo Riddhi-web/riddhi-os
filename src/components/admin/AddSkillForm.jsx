@@ -10,16 +10,20 @@ export default function AddSkillForm() {
     setEditingSkill,
   } = useSkillContext();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm({
-    defaultValues: {
-      name: "",
-      category: "",
-    },
-  });
+ const {
+  register,
+  handleSubmit,
+  reset,
+  watch,
+} = useForm({
+  defaultValues: {
+    name: "",
+    category: "",
+    level: 80,
+  },
+});
+
+console.log("WATCH:", watch());
 
   useEffect(() => {
     if (editingSkill) {
@@ -28,24 +32,35 @@ export default function AddSkillForm() {
       reset({
         name: "",
         category: "",
+        level: 80,
       });
     }
   }, [editingSkill, reset]);
 
-  const onSubmit = (data) => {
-    if (editingSkill) {
-      editSkill({
-        ...editingSkill,
-        ...data,
-      });
-    } else {
-      addSkill(data);
-    }
+ const onSubmit = async (data) => {
+  console.log("Form Data:", data);
 
-    reset();
+  const payload = { ...data };
 
-    setEditingSkill(null);
-  };
+  console.log("Payload:", payload);
+
+  if (editingSkill) {
+    await editSkill({
+      ...editingSkill,
+      ...payload,
+    });
+  } else {
+    await addSkill(payload);
+  }
+
+  reset({
+    name: "",
+    category: "",
+    level: 80,
+  });
+
+  setEditingSkill(null);
+};
 
   return (
     <div className="rounded-3xl border border-orange-500/20 bg-slate-900/40 p-6">
@@ -65,13 +80,13 @@ export default function AddSkillForm() {
             Skill Name
           </label>
 
-          <input
-            {...register("name", {
-              required: true,
-            })}
-            placeholder="React"
-            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-orange-500"
-          />
+         <input
+          {...register("name", {
+            required: "Skill name is required",
+          })}
+          placeholder="React"
+          className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-orange-500"
+        />
 
         </div>
 
@@ -82,24 +97,40 @@ export default function AddSkillForm() {
           </label>
 
           <select
-            {...register("category", {
-              required: true,
-            })}
-            className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-orange-500"
-          >
-            <option value="">Select Category</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Backend">Backend</option>
-            <option value="Database">Database</option>
-            <option value="Programming">Programming</option>
-            <option value="Tools">Tools</option>
-            <option value="Other">Other</option>
-          </select>
+  {...register("category", {
+    required: "Category is required",
+  })}
+  className="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-orange-500"
+>
+  <option value="">Select Category</option>
+  <option value="Frontend">Frontend</option>
+  <option value="Backend">Backend</option>
+  <option value="Database">Database</option>
+  <option value="Tools">Tools</option>
+  <option value="Other">Other</option>
+</select>
 
         </div>
 
         <div className="flex gap-4">
 
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Skill Level
+          </label>
+
+          <input
+            type="range"
+            min="0"
+            max="100"
+            {...register("level")}
+            className="w-full"
+          />
+
+          <p className="mt-2 text-sm text-slate-400">
+            0 = Beginner | 100 = Expert
+          </p>
+        </div>
           <button
             type="submit"
             className="rounded-xl bg-orange-500 px-6 py-3 font-semibold text-black hover:bg-orange-400"
