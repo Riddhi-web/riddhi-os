@@ -6,15 +6,15 @@ import App from "./App.jsx";
 import { ProjectProvider } from "./context/ProjectContext";
 import { SkillProvider } from "./context/SkillContext";
 import { AuthProvider } from "./context/AuthContext";
-
+import { ExperienceProvider } from "./context/ExperienceContext";
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <AuthProvider>
-      <ProjectProvider>
-        <SkillProvider>
-          <App />
-        </SkillProvider>
-      </ProjectProvider>
-    </AuthProvider>
-  </StrictMode>
+  <AuthProvider>
+  <ProjectProvider>
+    <SkillProvider>
+      <ExperienceProvider>
+        <App />
+      </ExperienceProvider>
+    </SkillProvider>
+  </ProjectProvider>
+</AuthProvider>
 );

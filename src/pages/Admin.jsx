@@ -4,6 +4,8 @@ import AddProjectForm from "../components/admin/AddProjectForm";
 import ManageProjects from "../components/admin/ManageProjects";
 import AddSkillForm from "../components/admin/AddSkillForm";
 import ManageSkills from "../components/admin/ManageSkills";
+import AddExperienceForm from "../components/admin/AddExperienceForm";
+import ManageExperiences from "../components/admin/ManageExperiences";
 import { useProjectContext } from "../context/ProjectContext";
 
 export default function Admin() {
@@ -12,24 +14,27 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const tabs = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-    },
-    {
-      id: "projects",
-      label: "Projects",
-    },
-    {
-      id: "skills",
-      label: "Skills",
-    },
-    {
-      id: "settings",
-      label: "Settings",
-    },
-  ];
-
+  {
+    id: "dashboard",
+    label: "Dashboard",
+  },
+  {
+    id: "projects",
+    label: "Projects",
+  },
+  {
+    id: "skills",
+    label: "Skills",
+  },
+  {
+    id: "experience",
+    label: "Experience",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+  },
+];
   const stats = useMemo(() => {
     const completed = projects.filter(
       (project) => project.status === "Completed"
@@ -183,6 +188,12 @@ export default function Admin() {
                 </button>
 
                 <button
+                  onClick={() => setActiveTab("experience")}
+                  className="rounded-xl border border-orange-500 px-6 py-3 transition hover:bg-orange-500/10"
+                >
+                  Manage Experience
+                </button>
+                <button
                   onClick={() => setActiveTab("settings")}
                   className="rounded-xl border border-slate-700 px-6 py-3 transition hover:border-orange-500"
                 >
@@ -246,6 +257,29 @@ export default function Admin() {
   </div>
 )}
 
+  {/* Experience */}
+
+  {activeTab === "experience" && (
+    <div className="space-y-8">
+
+      <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+
+        <h2 className="text-2xl font-bold text-orange-400">
+          Experience Management
+        </h2>
+
+        <p className="mt-2 text-slate-400">
+          Add, edit and manage your work experience.
+        </p>
+
+      </section>
+
+      <AddExperienceForm />
+
+      <ManageExperiences />
+
+    </div>
+  )}
         {/* Settings */}
 
         {activeTab === "settings" && (
