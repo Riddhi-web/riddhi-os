@@ -10,6 +10,8 @@ import AddEducationForm from "../components/admin/AddEducationForm";
 import ManageEducations from "../components/admin/ManageEducations";
 import AddCertificateForm from "../components/admin/AddCertificateForm";
 import ManageCertificates from "../components/admin/ManageCertificates";
+import AddAchievementForm from "../components/admin/AddAchievementForm";
+import ManageAchievements from "../components/admin/ManageAchievements";
 import { useProjectContext } from "../context/ProjectContext";
 
 export default function Admin() {
@@ -41,6 +43,10 @@ export default function Admin() {
 {
   id: "certificates",
   label: "Certificates",
+},
+{
+  id: "achievements",
+  label: "Achievements",
 },
   {
     id: "settings",
@@ -346,6 +352,27 @@ export default function Admin() {
     <AddCertificateForm />
 
     <ManageCertificates />
+
+  </div>
+)}
+{activeTab === "achievements" && (
+  <div className="space-y-8">
+
+    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+
+      <h2 className="text-2xl font-bold text-orange-400">
+        Achievement Management
+      </h2>
+
+      <p className="mt-2 text-slate-400">
+        Add, edit and manage your achievements.
+      </p>
+
+    </section>
+
+    <AddAchievementForm />
+
+    <ManageAchievements />
 
   </div>
 )}
