@@ -6,6 +6,10 @@ import AddSkillForm from "../components/admin/AddSkillForm";
 import ManageSkills from "../components/admin/ManageSkills";
 import AddExperienceForm from "../components/admin/AddExperienceForm";
 import ManageExperiences from "../components/admin/ManageExperiences";
+import AddEducationForm from "../components/admin/AddEducationForm";
+import ManageEducations from "../components/admin/ManageEducations";
+import AddCertificateForm from "../components/admin/AddCertificateForm";
+import ManageCertificates from "../components/admin/ManageCertificates";
 import { useProjectContext } from "../context/ProjectContext";
 
 export default function Admin() {
@@ -30,6 +34,14 @@ export default function Admin() {
     id: "experience",
     label: "Experience",
   },
+  {
+  id: "education",
+  label: "Education",
+},
+{
+  id: "certificates",
+  label: "Certificates",
+},
   {
     id: "settings",
     label: "Settings",
@@ -193,6 +205,19 @@ export default function Admin() {
                 >
                   Manage Experience
                 </button>
+
+                <button
+                onClick={() => setActiveTab("education")}
+                className="rounded-xl border border-orange-500 px-6 py-3 transition hover:bg-orange-500/10"
+              >
+                Manage Education
+              </button>
+              <button
+                onClick={() => setActiveTab("certificates")}
+                className="rounded-xl border border-orange-500 px-6 py-3 transition hover:bg-orange-500/10"
+              >
+                Manage Certificates
+              </button>
                 <button
                   onClick={() => setActiveTab("settings")}
                   className="rounded-xl border border-slate-700 px-6 py-3 transition hover:border-orange-500"
@@ -280,6 +305,50 @@ export default function Admin() {
 
     </div>
   )}
+  {/* Education */}
+
+{activeTab === "education" && (
+  <div className="space-y-8">
+
+    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+
+      <h2 className="text-2xl font-bold text-orange-400">
+        Education Management
+      </h2>
+
+      <p className="mt-2 text-slate-400">
+        Add, edit and manage your education details.
+      </p>
+
+    </section>
+
+    <AddEducationForm />
+
+    <ManageEducations />
+
+  </div>
+)}
+    {activeTab === "certificates" && (
+  <div className="space-y-8">
+
+    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+
+      <h2 className="text-2xl font-bold text-orange-400">
+        Certificate Management
+      </h2>
+
+      <p className="mt-2 text-slate-400">
+        Add, edit and manage your certificates.
+      </p>
+
+    </section>
+
+    <AddCertificateForm />
+
+    <ManageCertificates />
+
+  </div>
+)}
         {/* Settings */}
 
         {activeTab === "settings" && (

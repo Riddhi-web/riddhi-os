@@ -1,0 +1,20 @@
+import express from "express";
+import {
+  getCertificates,
+  createCertificate,
+  updateCertificate,
+  deleteCertificate,
+} from "../controllers/certificateController.js";
+import protect from "../middleware/authMiddleware.js";
+
+const router = express.Router();
+
+// Public Route
+router.get("/", getCertificates);
+
+// Protected Routes
+router.post("/", protect, createCertificate);
+router.put("/:id", protect, updateCertificate);
+router.delete("/:id", protect, deleteCertificate);
+
+export default router;
