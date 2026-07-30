@@ -9,7 +9,7 @@ import experienceRoutes from "./routes/experienceRoutes.js";
 import educationRoutes from "./routes/educationRoutes.js";
 import certificateRoutes from "./routes/certificateRoutes.js";
 import achievementRoutes from "./routes/achievementRoutes.js";
-
+import settingsRoutes from "./routes/settingsRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -38,6 +38,7 @@ app.use("/api/experience", experienceRoutes);
 app.use("/api/education", educationRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/achievements", achievementRoutes);
+app.use("/api/settings", settingsRoutes);
 
 const PORT = process.env.PORT || 5000;
 

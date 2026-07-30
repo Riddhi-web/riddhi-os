@@ -9,6 +9,7 @@ import { ExperienceProvider } from "./context/ExperienceContext";
 import { EducationProvider } from "./context/EducationContext";
 import { CertificateProvider } from "./context/CertificateContext";
 import { AchievementProvider } from "./context/AchievementContext";
+import { SettingsProvider } from "./context/SettingsContext";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")).render(
           <EducationProvider>
             <CertificateProvider>
               <AchievementProvider>
-                <App />
+                <SettingsProvider>
+                  <App />
+                </SettingsProvider>
               </AchievementProvider>
             </CertificateProvider>
           </EducationProvider>

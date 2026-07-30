@@ -12,6 +12,7 @@ import AddCertificateForm from "../components/admin/AddCertificateForm";
 import ManageCertificates from "../components/admin/ManageCertificates";
 import AddAchievementForm from "../components/admin/AddAchievementForm";
 import ManageAchievements from "../components/admin/ManageAchievements";
+import ManageSettings from "../components/admin/ManageSettings";
 import { useProjectContext } from "../context/ProjectContext";
 
 export default function Admin() {
@@ -378,60 +379,25 @@ export default function Admin() {
 )}
         {/* Settings */}
 
-        {activeTab === "settings" && (
+{activeTab === "settings" && (
+  <div className="space-y-8">
 
-          <div className="space-y-8">
+    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
 
-            <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-8">
+      <h2 className="text-2xl font-bold text-orange-400">
+        Portfolio Settings
+      </h2>
 
-              <h2 className="text-3xl font-bold text-orange-400">
-                Workspace Settings
-              </h2>
+      <p className="mt-2 text-slate-400">
+        Manage your personal information and social links.
+      </p>
 
-              <p className="mt-3 text-slate-400">
-                Personalization and application settings will be added here.
-              </p>
+    </section>
 
-            </section>
+    <ManageSettings />
 
-            <div className="grid gap-6 lg:grid-cols-2">
-
-              <div className="rounded-3xl border border-slate-700 bg-slate-900/40 p-6">
-
-                <h3 className="text-xl font-semibold">
-                  Appearance
-                </h3>
-
-                <p className="mt-2 text-slate-400">
-                  Dark theme is currently enabled.
-                </p>
-
-              </div>
-
-              <div className="rounded-3xl border border-slate-700 bg-slate-900/40 p-6">
-
-                <h3 className="text-xl font-semibold">
-                  Future Features
-                </h3>
-
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-400">
-
-                  <li>Authentication</li>
-                  <li>Cloud Database</li>
-                  <li>Image Upload</li>
-                  <li>Analytics</li>
-                  <li>Backup & Restore</li>
-
-                </ul>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        )}
-
+  </div>
+)}
       </div>
 
     </MainLayout>
