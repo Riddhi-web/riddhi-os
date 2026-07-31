@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -8,7 +9,21 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
+import { trackVisit } from "./services/analyticsService";
+
 function App() {
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem("portfolioVisited");
+
+    if (!hasVisited) {
+      trackVisit().catch((error) => {
+        console.error("Failed to track visit:", error);
+      });
+
+      sessionStorage.setItem("portfolioVisited", "true");
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -16,7 +31,14 @@ function App() {
         <Route path="/skills" element={<Skills />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>

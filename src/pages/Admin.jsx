@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { getAnalytics } from "../services/analyticsService";
+import { getDashboardStats } from "../services/dashboardService";
 import MainLayout from "../layouts/MainLayout";
 import AddProjectForm from "../components/admin/AddProjectForm";
 import ManageProjects from "../components/admin/ManageProjects";
@@ -13,13 +15,27 @@ import ManageCertificates from "../components/admin/ManageCertificates";
 import AddAchievementForm from "../components/admin/AddAchievementForm";
 import ManageAchievements from "../components/admin/ManageAchievements";
 import ManageSettings from "../components/admin/ManageSettings";
+import ManageMessages from "../components/admin/ManageMessages";
 import { useProjectContext } from "../context/ProjectContext";
 
 export default function Admin() {
   const { projects } = useProjectContext();
 
   const [activeTab, setActiveTab] = useState("dashboard");
-
+  const [analytics, setAnalytics] = useState({
+  totalVisitors: 0,
+  resumeDownloads: 0,
+  totalMessages: 0,
+  unreadMessages: 0,
+});
+const [dashboardStats, setDashboardStats] = useState({
+  totalProjects: 0,
+  totalSkills: 0,
+  totalExperience: 0,
+  totalEducation: 0,
+  totalCertificates: 0,
+  totalAchievements: 0,
+});
   const tabs = [
   {
     id: "dashboard",
@@ -49,32 +65,34 @@ export default function Admin() {
   id: "achievements",
   label: "Achievements",
 },
+{
+  id: "messages",
+  label: "Messages",
+},
   {
     id: "settings",
     label: "Settings",
   },
+
 ];
-  const stats = useMemo(() => {
-    const completed = projects.filter(
-      (project) => project.status === "Completed"
-    ).length;
+useEffect(() => {
+  const loadDashboard = async () => {
+    try {
+      const [stats, analyticsData] = await Promise.all([
+        getDashboardStats(),
+        getAnalytics(),
+      ]);
 
-    const inProgress = projects.filter(
-      (project) => project.status === "In Progress"
-    ).length;
+      setDashboardStats(stats);
+      setAnalytics(analyticsData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    const planned = projects.filter(
-      (project) => project.status === "Planned"
-    ).length;
-
-    return {
-      total: projects.length,
-      completed,
-      inProgress,
-      planned,
-    };
-  }, [projects]);
-
+  loadDashboard();
+}, []);
+ 
   return (
     <MainLayout>
       <div className="space-y-8">
@@ -121,62 +139,66 @@ export default function Admin() {
           <div className="space-y-8">
 
             <section>
-
               <h2 className="mb-6 text-2xl font-bold">
                 Portfolio Overview
               </h2>
-
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
                 <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
-
                   <p className="text-sm uppercase tracking-wide text-slate-400">
                     Total Projects
                   </p>
-
                   <h3 className="mt-4 text-5xl font-bold text-orange-400">
-                    {stats.total}
+                    {dashboardStats.totalProjects}
                   </h3>
+                  </div>
 
-                </div>
+                  <div className="rounded-3xl border border-cyan-500/20 bg-cyan-500/5 p-6">
+                    <p className="text-sm uppercase tracking-wide text-slate-400">
+                      Skills
+                    </p>
+                    <h3 className="mt-4 text-5xl font-bold text-cyan-400">
+                      {dashboardStats.totalSkills}
+                    </h3>
+                  </div>
 
-                <div className="rounded-3xl border border-green-500/20 bg-green-500/5 p-6">
-
-                  <p className="text-sm uppercase tracking-wide text-slate-400">
-                    Completed
-                  </p>
-
-                  <h3 className="mt-4 text-5xl font-bold text-green-400">
-                    {stats.completed}
-                  </h3>
-
-                </div>
-
-                <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/5 p-6">
-
-                  <p className="text-sm uppercase tracking-wide text-slate-400">
-                    In Progress
-                  </p>
-
-                  <h3 className="mt-4 text-5xl font-bold text-yellow-400">
-                    {stats.inProgress}
-                  </h3>
-
-                </div>
-
-                <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-6">
-
-                  <p className="text-sm uppercase tracking-wide text-slate-400">
-                    Planned
-                  </p>
-
-                  <h3 className="mt-4 text-5xl font-bold text-blue-400">
-                    {stats.planned}
-                  </h3>
-
-                </div>
-
+              <div className="rounded-3xl border border-green-500/20 bg-green-500/5 p-6">
+                <p className="text-sm uppercase tracking-wide text-slate-400">
+                  Experience
+                </p>
+                <h3 className="mt-4 text-5xl font-bold text-green-400">
+                  {dashboardStats.totalExperience}
+                </h3>
               </div>
+
+              <div className="rounded-3xl border border-purple-500/20 bg-purple-500/5 p-6">
+                <p className="text-sm uppercase tracking-wide text-slate-400">
+                  Education
+                </p>
+                <h3 className="mt-4 text-5xl font-bold text-purple-400">
+                  {dashboardStats.totalEducation}
+                </h3>
+              </div>
+
+              <div className="rounded-3xl border border-yellow-500/20 bg-yellow-500/5 p-6">
+                <p className="text-sm uppercase tracking-wide text-slate-400">
+                  Certificates
+                </p>
+                <h3 className="mt-4 text-5xl font-bold text-yellow-400">
+                  {dashboardStats.totalCertificates}
+                </h3>
+              </div>
+
+              <div className="rounded-3xl border border-pink-500/20 bg-pink-500/5 p-6">
+                <p className="text-sm uppercase tracking-wide text-slate-400">
+                  Achievements
+                </p>
+                <h3 className="mt-4 text-5xl font-bold text-pink-400">
+                  {dashboardStats.totalAchievements}
+                </h3>
+              </div>
+
+                </div>
 
             </section>
 
@@ -225,17 +247,71 @@ export default function Admin() {
               >
                 Manage Certificates
               </button>
-                <button
-                  onClick={() => setActiveTab("settings")}
-                  className="rounded-xl border border-slate-700 px-6 py-3 transition hover:border-orange-500"
-                >
-                  Settings
-                </button>
+              <button
+                onClick={() => setActiveTab("messages")}
+                className="rounded-xl border border-orange-500 px-6 py-3 transition hover:bg-orange-500/10"
+              >
+                Manage Messages
+              </button>
+              <button
+                onClick={() => setActiveTab("settings")}
+                className="rounded-xl border border-orange-500 px-6 py-3 transition hover:bg-orange-500/10"
+              >
+                Settings
+              </button>
 
               </div>
 
+                        </section>
+
+            {/* Portfolio Analytics */}
+
+            <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-8">
+
+              <h2 className="mb-6 text-2xl font-bold">
+                Portfolio Analytics
+              </h2>
+
+              <div className="grid gap-6 md:grid-cols-2">
+
+                <div className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-6">
+                  <p className="text-sm uppercase tracking-wide text-slate-400">
+                    Total Visitors
+                  </p>
+                  <h3 className="mt-4 text-5xl font-bold text-indigo-400">
+                    {analytics.totalVisitors}
+                  </h3>
+                </div>
+
+                <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-6">
+                  <p className="text-sm uppercase tracking-wide text-slate-400">
+                    Resume Downloads
+                  </p>
+                  <h3 className="mt-4 text-5xl font-bold text-blue-400">
+                    {analytics.resumeDownloads}
+                  </h3>
+                </div>
+                  <div className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-6">
+                    <p className="text-sm uppercase tracking-wide text-slate-400">
+                      Total Messages
+                    </p>
+                    <h3 className="mt-4 text-5xl font-bold text-indigo-400">
+                      {analytics.totalMessages}
+                    </h3>
+                  </div>
+                  <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-6">
+                    <p className="text-sm uppercase tracking-wide text-slate-400">
+                      Unread Messages
+                    </p>
+                    <h3 className="mt-4 text-5xl font-bold text-blue-400">
+                      {analytics.unreadMessages}
+                    </h3>
+                  </div>
+              </div>
+
             </section>
-                      </div>
+
+          </div>
 
         )}
 
@@ -268,26 +344,26 @@ export default function Admin() {
         {/* Skills */}
 
         {activeTab === "skills" && (
-  <div className="space-y-8">
+      <div className="space-y-8">
 
-    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+          <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
 
-      <h2 className="text-2xl font-bold text-orange-400">
-        Skills Management
-      </h2>
+            <h2 className="text-2xl font-bold text-orange-400">
+              Skills Management
+            </h2>
 
-      <p className="mt-2 text-slate-400">
-        Add, edit and organize your technical skills.
-      </p>
+            <p className="mt-2 text-slate-400">
+              Add, edit and organize your technical skills.
+            </p>
 
-    </section>
+          </section>
 
-    <AddSkillForm />
+          <AddSkillForm />
 
-    <ManageSkills />
+          <ManageSkills />
 
-  </div>
-)}
+        </div>
+      )}
 
   {/* Experience */}
 
@@ -335,6 +411,7 @@ export default function Admin() {
 
   </div>
 )}
+ {/* certificates */}
     {activeTab === "certificates" && (
   <div className="space-y-8">
 
@@ -356,6 +433,7 @@ export default function Admin() {
 
   </div>
 )}
+ {/* achievements*/}
 {activeTab === "achievements" && (
   <div className="space-y-8">
 
@@ -377,6 +455,24 @@ export default function Admin() {
 
   </div>
 )}
+ {/* messages*/}
+
+{activeTab === "messages" && (
+  <div className="space-y-8">
+    <section className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+      <h2 className="text-2xl font-bold text-orange-400">
+        Messages
+      </h2>
+
+      <p className="mt-2 text-slate-400">
+        View and manage messages sent from your portfolio.
+      </p>
+    </section>
+
+    <ManageMessages />
+  </div>
+)}
+ 
         {/* Settings */}
 
 {activeTab === "settings" && (

@@ -1,0 +1,114 @@
+############################################################
+# RIDDHI.OS Backend API Collection
+############################################################
+
+@baseUrl = http://localhost:5000
+@token = PASTE_YOUR_JWT_TOKEN_HERE
+
+############################################################
+# AUTH
+############################################################
+
+### Admin Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "mangariddhi1211",
+  "password": "Riddhi2004DB"
+}
+
+############################################################
+# SETTINGS
+############################################################
+
+### Get Portfolio Settings
+GET {{baseUrl}}/api/settings
+
+### Update Portfolio Settings
+PUT {{baseUrl}}/api/settings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fullName": "Riddhi Manga",
+  "title": "Full Stack MERN Developer",
+  "bio": "Passionate MERN Stack Developer building modern web applications.",
+  "email": "riddhi@example.com",
+  "phone": "9876543210",
+  "location": "Jamnagar, Gujarat",
+  "github": "https://github.com/Riddhi-web",
+  "linkedin": "https://linkedin.com/in/your-profile",
+  "leetcode": "",
+  "portfolio": "",
+  "instagram": ""
+}
+
+############################################################
+# MEDIA UPLOAD
+############################################################
+
+### Upload Profile Image
+POST {{baseUrl}}/api/upload/profile
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="profileImage"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+--boundary--
+
+############################################################
+
+### Upload Resume
+POST {{baseUrl}}/api/upload/resume
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="resume"; filename="resume.pdf"
+Content-Type: application/pdf
+
+< ./resume.pdf
+--boundary--
+
+############################################################
+
+### Delete Profile Image
+DELETE {{baseUrl}}/api/upload/profile
+Authorization: Bearer {{token}}
+
+############################################################
+
+### Delete Resume
+DELETE {{baseUrl}}/api/upload/resume
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:5000/api/dashboard
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjVhNjc2MTQ1NGQ0YjVkYzVhNTA5OCIsInVzZXJuYW1lIjoibWFuZ2FyaWRkaGkxMjExIiwiaWF0IjoxNzg1MDQ3NTkzLCJleHAiOjE3ODU2NTIzOTN9.wTqSaS1nnaQey3zcPHMZ2urlMEwtlNuK0Fx6JU-iPP0
+
+###
+POST http://localhost:5000/api/messages
+Content-Type: application/json
+
+{
+  "name": "Riddhi",
+  "email": "riddhi@example.com",
+  "subject": "Portfolio Test",
+  "message": "This is my first contact message."
+}
+
+###
+GET http://localhost:5000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjVhNjc2MTQ1NGQ0YjVkYzVhNTA5OCIsInVzZXJuYW1lIjoibWFuZ2FyaWRkaGkxMjExIiwiaWF0IjoxNzg1MDQ3NTkzLCJleHAiOjE3ODU2NTIzOTN9.wTqSaS1nnaQey3zcPHMZ2urlMEwtlNuK0Fx6JU-iPP0
+
+
+###
+GET http://localhost:5000/api/analytics
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjVhNjc2MTQ1NGQ0YjVkYzVhNTA5OCIsInVzZXJuYW1lIjoibWFuZ2FyaWRkaGkxMjExIiwiaWF0IjoxNzg1MDQ3NTkzLCJleHAiOjE3ODU2NTIzOTN9.wTqSaS1nnaQey3zcPHMZ2urlMEwtlNuK0Fx6JU-iPP0
+
+###
+POST http://localhost:5000/api/analytics/visit
