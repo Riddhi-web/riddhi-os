@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -27,9 +28,13 @@ export function AuthProvider({ children }) {
 
       setIsAuthenticated(true);
 
+      toast.success("Login successful!");
+
       return true;
     } catch (error) {
       console.error("Login failed:", error);
+
+      toast.error("Invalid username or password.");
 
       return false;
     }
@@ -37,7 +42,10 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
+
     setIsAuthenticated(false);
+
+    toast.success("Logged out successfully.");
   };
 
   return (
