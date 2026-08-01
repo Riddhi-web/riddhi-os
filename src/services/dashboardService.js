@@ -1,15 +1,19 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/dashboard";
+import api from "./api";
 
 const getToken = () => localStorage.getItem("token");
 
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
+
+// Get Dashboard Statistics
 export const getDashboardStats = async () => {
-  const response = await axios.get(API_URL, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await api.get(
+    "/api/dashboard",
+    authConfig()
+  );
 
   return response.data;
 };

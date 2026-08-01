@@ -1,42 +1,45 @@
-import axios from "axios";
-
-const API_URL = `${import.meta.env.VITE_API_URL}/api/projects`;
+import api from "./api";
 
 const getToken = () => localStorage.getItem("token");
 
+const authConfig = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
+
 // Get all projects
 export const getProjects = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/api/projects");
   return response.data.data;
 };
 
 // Create project
 export const saveProject = async (project) => {
-  const response = await axios.post(API_URL, project, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await api.post(
+    "/api/projects",
+    project,
+    authConfig()
+  );
 
   return response.data.data;
 };
 
 // Update project
 export const updateProject = async (id, project) => {
-  const response = await axios.put(`${API_URL}/${id}`, project, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await api.put(
+    `/api/projects/${id}`,
+    project,
+    authConfig()
+  );
 
   return response.data.data;
 };
 
 // Delete project
 export const deleteProject = async (id) => {
-  await axios.delete(`${API_URL}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  await api.delete(
+    `/api/projects/${id}`,
+    authConfig()
+  );
 };

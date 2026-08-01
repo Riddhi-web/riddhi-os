@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/achievements";
+import api from "./api";
 
 const authConfig = () => ({
   headers: {
@@ -8,16 +6,16 @@ const authConfig = () => ({
   },
 });
 
-// GET
+// Get all achievements (Public)
 export const fetchAchievements = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/api/achievements");
   return response.data.data;
 };
 
-// POST
+// Add achievement
 export const saveAchievement = async (achievementData) => {
-  const response = await axios.post(
-    API_URL,
+  const response = await api.post(
+    "/api/achievements",
     achievementData,
     authConfig()
   );
@@ -25,10 +23,10 @@ export const saveAchievement = async (achievementData) => {
   return response.data.data;
 };
 
-// PUT
+// Update achievement
 export const editAchievement = async (id, achievementData) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
+  const response = await api.put(
+    `/api/achievements/${id}`,
     achievementData,
     authConfig()
   );
@@ -36,10 +34,10 @@ export const editAchievement = async (id, achievementData) => {
   return response.data.data;
 };
 
-// DELETE
+// Delete achievement
 export const removeAchievement = async (id) => {
-  const response = await axios.delete(
-    `${API_URL}/${id}`,
+  const response = await api.delete(
+    `/api/achievements/${id}`,
     authConfig()
   );
 

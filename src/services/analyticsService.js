@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/analytics";
+import api from "./api";
 
 const authConfig = () => ({
   headers: {
@@ -8,19 +6,22 @@ const authConfig = () => ({
   },
 });
 
+// Get Dashboard Analytics (Admin)
 export const getAnalytics = async () => {
-  const response = await axios.get(
-    API_URL,
+  const response = await api.get(
+    "/api/analytics",
     authConfig()
   );
 
   return response.data;
 };
 
+// Track Portfolio Visit (Public)
 export const trackVisit = async () => {
-  await axios.post(`${API_URL}/visit`);
+  await api.post("/api/analytics/visit");
 };
 
+// Track Resume Download (Public)
 export const trackResumeDownload = async () => {
-  await axios.post(`${API_URL}/resume-download`);
+  await api.post("/api/analytics/resume-download");
 };

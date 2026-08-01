@@ -1,46 +1,54 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/messages";
+import api from "./api";
 
 const getToken = () => localStorage.getItem("token");
 
-// Public
+const authHeaders = () => ({
+  Authorization: `Bearer ${getToken()}`,
+});
+
+// Send Message (Public)
 export const sendMessage = async (data) => {
-  const response = await axios.post(API_URL, data);
+  const response = await api.post(
+    "/api/messages",
+    data
+  );
+
   return response.data;
 };
 
-// Admin
+// Get All Messages (Admin)
 export const getMessages = async () => {
-  const response = await axios.get(API_URL, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-
-  return response.data;
-};
-
-export const markMessageAsRead = async (id) => {
-  const response = await axios.put(
-    `${API_URL}/${id}/read`,
-    {},
+  const response = await api.get(
+    "/api/messages",
     {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
+      headers: authHeaders(),
     }
   );
 
   return response.data;
 };
 
+// Mark Message as Read
+export const markMessageAsRead = async (id) => {
+  const response = await api.put(
+    `/api/messages/${id}/read`,
+    {},
+    {
+      headers: authHeaders(),
+    }
+  );
+
+  return response.data;
+};
+
+// Delete Message
 export const deleteMessage = async (id) => {
-  const response = await axios.delete(`${API_URL}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await api.delete(
+    `/api/messages/${id}`,
+    {
+      headers: authHeaders(),
+    }
+  );
 
   return response.data;
 };

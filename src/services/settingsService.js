@@ -1,7 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/settings";
-const UPLOAD_URL = "http://localhost:5000/api/upload";
+import api from "./api";
 
 const getToken = () => localStorage.getItem("token");
 
@@ -11,15 +8,19 @@ const authHeaders = () => ({
 
 // Get Portfolio Settings
 export const getSettings = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/api/settings");
   return response.data.data;
 };
 
 // Update Portfolio Settings
 export const saveSettings = async (settings) => {
-  const response = await axios.put(API_URL, settings, {
-    headers: authHeaders(),
-  });
+  const response = await api.put(
+    "/api/settings",
+    settings,
+    {
+      headers: authHeaders(),
+    }
+  );
 
   return response.data.data;
 };
@@ -29,8 +30,8 @@ export const uploadProfileImage = async (file) => {
   const formData = new FormData();
   formData.append("profileImage", file);
 
-  const response = await axios.post(
-    `${UPLOAD_URL}/profile`,
+  const response = await api.post(
+    "/api/upload/profile",
     formData,
     {
       headers: {
@@ -45,8 +46,8 @@ export const uploadProfileImage = async (file) => {
 
 // Delete Profile Image
 export const deleteProfileImage = async () => {
-  const response = await axios.delete(
-    `${UPLOAD_URL}/profile`,
+  const response = await api.delete(
+    "/api/upload/profile",
     {
       headers: authHeaders(),
     }
@@ -60,8 +61,8 @@ export const uploadResume = async (file) => {
   const formData = new FormData();
   formData.append("resume", file);
 
-  const response = await axios.post(
-    `${UPLOAD_URL}/resume`,
+  const response = await api.post(
+    "/api/upload/resume",
     formData,
     {
       headers: {
@@ -76,8 +77,8 @@ export const uploadResume = async (file) => {
 
 // Delete Resume
 export const deleteResume = async () => {
-  const response = await axios.delete(
-    `${UPLOAD_URL}/resume`,
+  const response = await api.delete(
+    "/api/upload/resume",
     {
       headers: authHeaders(),
     }
