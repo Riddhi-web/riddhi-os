@@ -4,80 +4,96 @@ import { useProjectContext } from "../../context/ProjectContext";
 
 export default function AddProjectForm() {
   const {
-  register,
-  handleSubmit,
-  reset,
-  setValue,
-  formState: { errors },
-} = useForm();
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-    const {
+  const {
     addProject,
     editProject,
     editingProject,
     setEditingProject,
   } = useProjectContext();
 
- useEffect(() => {
-  if (!editingProject) return;
+  useEffect(() => {
+    if (!editingProject) return;
 
-  console.log("editingProject changed:", editingProject);
+    setValue("title", editingProject.title);
+    setValue("description", editingProject.description);
+    setValue("github", editingProject.github);
+    setValue("liveDemo", editingProject.liveDemo);
+    setValue("status", editingProject.status);
+    setValue("techStack", (editingProject.techStack || []).join(", "));
+    setValue("category", editingProject.category);
+    setValue("featured", editingProject.featured);
 
-  setValue("name", editingProject.name);
-  setValue("description", editingProject.description);
-  setValue("github", editingProject.github);
-  setValue("demo", editingProject.demo);
-  setValue("status", editingProject.status);
-}, [editingProject, setValue]);
+  }, [editingProject, setValue]);
 
-    const onSubmit = (data) => {
-  if (editingProject) {
-    editProject({
-      ...editingProject,
+  const onSubmit = (data) => {
+    const payload = {
       ...data,
-    });
+      techStack: data.techStack
+        ? data.techStack
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : [],
+      featured: data.featured || false,
+    };
 
-    alert("✅ Project updated successfully!");
+    if (editingProject) {
+      editProject({
+        ...editingProject,
+        ...payload,
+      });
 
-    setEditingProject(null);
-  } else {
-    addProject(data);
+      alert("✅ Project updated successfully!");
 
-    alert("✅ Project added successfully!");
-  }
+      setEditingProject(null);
+    } else {
+      addProject(payload);
 
-  reset();
-};
+      alert("✅ Project added successfully!");
+    }
+
+    reset();
+  };
+
   return (
     <div className="rounded-3xl border border-orange-500/20 bg-orange-500/5 p-6">
+
       <h2 className="mb-2 text-2xl font-bold">
-        Add Project
+        {editingProject ? "Update Project" : "Add Project"}
       </h2>
 
       <p className="mb-6 text-slate-400">
-        Create a new project entry for your portfolio.
+        Create or update your portfolio projects.
       </p>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-4"
       >
+
         <div>
           <label className="mb-2 block text-sm font-medium text-slate-300">
-            Project Name
+            Project Title
           </label>
 
           <input
-            {...register("name", {
-              required: "Project name is required",
+            {...register("title", {
+              required: "Project title is required",
             })}
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
             placeholder="RIDDHI.OS"
-            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none transition focus:border-orange-500"
           />
 
-          {errors.name && (
+          {errors.title && (
             <p className="mt-1 text-sm text-red-400">
-              {errors.name.message}
+              {errors.title.message}
             </p>
           )}
         </div>
@@ -88,12 +104,11 @@ export default function AddProjectForm() {
           </label>
 
           <textarea
+            rows={4}
             {...register("description", {
               required: "Description is required",
             })}
-            placeholder="Describe your project..."
-            rows={4}
-            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none transition focus:border-orange-500"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
           />
 
           {errors.description && (
@@ -105,13 +120,25 @@ export default function AddProjectForm() {
 
         <div>
           <label className="mb-2 block text-sm font-medium text-slate-300">
+            Tech Stack
+          </label>
+
+          <input
+            {...register("techStack")}
+            placeholder="React, Node.js, MongoDB"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
+          />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium text-slate-300">
             GitHub URL
           </label>
 
           <input
             {...register("github")}
             placeholder="https://github.com/..."
-            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none transition focus:border-orange-500"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
           />
         </div>
 
@@ -121,10 +148,28 @@ export default function AddProjectForm() {
           </label>
 
           <input
-            {...register("demo")}
+            {...register("liveDemo")}
             placeholder="https://..."
-            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none transition focus:border-orange-500"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
           />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium text-slate-300">
+            Category
+          </label>
+
+          <select
+            {...register("category")}
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
+          >
+            <option value="Web">Web</option>
+            <option value="Mobile">Mobile</option>
+            <option value="AI">AI</option>
+            <option value="UI/UX">UI/UX</option>
+            <option value="Open Source">Open Source</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <div>
@@ -134,34 +179,46 @@ export default function AddProjectForm() {
 
           <select
             {...register("status")}
-            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none transition focus:border-orange-500"
+            className="w-full rounded-xl border border-slate-700 bg-slate-900/20 p-3 outline-none focus:border-orange-500"
           >
-            <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
+            <option value="In Progress">In Progress</option>
             <option value="Planned">Planned</option>
           </select>
         </div>
 
-        <div className="flex gap-3 pt-2">
+        <label className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            {...register("featured")}
+          />
+          Featured Project
+        </label>
+
+        <div className="flex gap-3">
+
           <button
             type="submit"
-            className="rounded-xl bg-orange-500 px-5 py-3 font-medium text-black transition hover:bg-orange-400"
+            className="rounded-xl bg-orange-500 px-6 py-3 font-semibold text-black hover:bg-orange-400"
           >
             {editingProject ? "Update Project" : "Save Project"}
           </button>
+
           {editingProject && (
-  <button
-    type="button"
-    onClick={() => {
-      setEditingProject(null);
-      reset();
-    }}
-    className="rounded-xl border border-slate-700 px-5 py-3 hover:bg-slate-800"
-  >
-    Cancel
-  </button>
-)}
+            <button
+              type="button"
+              onClick={() => {
+                setEditingProject(null);
+                reset();
+              }}
+              className="rounded-xl border border-slate-700 px-6 py-3 hover:bg-slate-800"
+            >
+              Cancel
+            </button>
+          )}
+
         </div>
+
       </form>
     </div>
   );

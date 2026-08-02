@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSettingsContext } from "../../context/SettingsContext";
-
-const BASE_URL = "http://localhost:5000/";
-
+const BASE_URL = import.meta.env.VITE_API_URL + "/";
 export default function SettingsForm() {
   const {
     settings,
@@ -27,11 +25,10 @@ export default function SettingsForm() {
     reset(settings);
   }, [settings, reset]);
 
-  const onSubmit = async (data) => {
-    await updateSettings(data);
-    alert("Settings Updated Successfully!");
-  };
-
+    const onSubmit = async (data) => {
+      await updateSettings(data);
+      alert("Settings Updated Successfully!");
+    };
   const handleProfileUpload = async () => {
     if (!profileFile) return alert("Select an image first.");
 
@@ -186,8 +183,15 @@ export default function SettingsForm() {
             Contact
           </h3>
 
-          <input {...register("email")} placeholder="Email" className="w-full rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" />
-          <input {...register("phone")} placeholder="Phone" className="w-full rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" />
+<input
+  {...register("email")}
+  placeholder="Email"
+  onChange={(e) => {
+    register("email").onChange(e);
+    console.log("EMAIL:", e.target.value);
+  }}
+  className="w-full rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3 text-white"
+/>         <input {...register("phone")} placeholder="Phone" className="w-full rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" />
           <input {...register("location")} placeholder="Location" className="w-full rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"/>
 
         </div>
