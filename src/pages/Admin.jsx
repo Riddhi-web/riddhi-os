@@ -10,7 +10,7 @@ import AddExperienceForm from "../components/admin/AddExperienceForm";
 import ManageExperiences from "../components/admin/ManageExperiences";
 import AddEducationForm from "../components/admin/AddEducationForm";
 import ManageEducations from "../components/admin/ManageEducations";
-import AddCertificateForm from "../components/admin/AddCertificateForm";
+import AddCertificateForm from "../components/admin/addCertificateForm";
 import ManageCertificates from "../components/admin/ManageCertificates";
 import AddAchievementForm from "../components/admin/AddAchievementForm";
 import ManageAchievements from "../components/admin/ManageAchievements";
