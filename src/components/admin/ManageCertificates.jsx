@@ -1,4 +1,4 @@
-import { useCertificate } from "../../context/CertificateContext";
+import { useCertificate } from "../../context/certificateContext";
 
 const ManageCertificates = () => {
   const {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useCertificate } from "../../context/CertificateContext";
+import { useCertificate } from "../../context/certificateContext";
 
 const AddCertificateForm = () => {
   const {

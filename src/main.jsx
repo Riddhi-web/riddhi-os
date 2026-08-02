@@ -9,7 +9,7 @@ import { ProjectProvider } from "./context/ProjectContext";
 import { SkillProvider } from "./context/SkillContext";
 import { ExperienceProvider } from "./context/ExperienceContext";
 import { EducationProvider } from "./context/EducationContext";
-import { CertificateProvider } from "./context/CertificateContext.jsx";
+import { CertificateProvider } from "./context/certificateContext.jsx";
 import { AchievementProvider } from "./context/AchievementContext";
 import { SettingsProvider } from "./context/SettingsContext";
 
