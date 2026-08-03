@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../services/api";
 
 const AuthContext = createContext();
 
-const API_URL = "http://localhost:5000/api/auth";
 const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
@@ -17,10 +17,7 @@ export function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, {
-        username,
-        password,
-      });
+     const response = await api.post("/api/auth/login", credentials);
 
       const token = response.data.token;
 

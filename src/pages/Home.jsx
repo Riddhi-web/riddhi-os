@@ -10,16 +10,17 @@ export default function Home() {
   const { projects } = useProjectContext();
   const { skills } = useSkillContext();
 
+  const BASE_URL = import.meta.env.VITE_API_URL;
   const profileImage = settings.profileImage
-    ? `http://localhost:5000/${settings.profileImage}`
-    : null;
+  ? `${BASE_URL}/${settings.profileImage}`
+  : null;
 
-  const resumeUrl = settings.resume
-    ? `http://localhost:5000/${settings.resume}`
-    : null;
-
-  const featuredProject =
-    projects.find((project) => project.featured) || projects[0];
+  const resume = settings.resume
+  ? `${BASE_URL}/${settings.resume}`
+  : null;
+  
+    const featuredProject =
+      projects.find((project) => project.featured) || projects[0];
 
   const handleResumeDownload = async () => {
     try {
